@@ -1,6 +1,6 @@
 
 import { Client } from './lib/Client';
-import { ClientServer, ClientServerHooksConfig } from './lib/ClientServer';
+import { AccessResponseWithHeaders, ClientServer, ClientServerHooksConfig } from './lib/ClientServer';
 import { ClientWrapper } from './lib/ClientWrapper';
 import { Mount } from './lib/Mount';
 import { Mounts } from './lib/Mounts';
@@ -44,6 +44,7 @@ export default class RtspServer {
 }
 
 export {
+  AccessResponseWithHeaders,
   Client,
   ClientServerHooksConfig,
   ClientWrapper,

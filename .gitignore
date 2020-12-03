@@ -1,2 +1,9 @@
-node_modules
-build/*
+.*
+
+!.babelrc
+!.eslintrc
+!.gitignore
+!.prettierrc
+
+build/
+node_modules/

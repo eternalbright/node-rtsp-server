@@ -3,7 +3,7 @@ declare module 'rtsp-server' {
   import { Socket } from 'net';
 
   export type RtspRequestMethod = 'DESCRIBE' | 'ANNOUNCE' | 'GET_PARAMETER' | 'OPTIONS' | 'PAUSE' | 'PLAY' | 'RECORD' | 'REDIRECT' | 'SETUP' | 'SET_PARAMETER' | 'TEARDOWN';
-  
+
   export interface RtspRequest {
     method: RtspRequestMethod;
     headers: {
@@ -25,6 +25,11 @@ declare module 'rtsp-server' {
     write(data: any): void;
   }
 
+  export interface RtspOptions {
+    host?: string,
+    port: number
+  }
+
   export type RtspRequestFn = (req: RtspRequest, res: RtspResponse) => void;
   export type RtspErrorFn = (err: Error, socket?: Socket) => void;
 
@@ -33,7 +38,7 @@ declare module 'rtsp-server' {
     on(event: 'error', listener: RtspErrorFn): this;
     on(event: 'clientError', listener: RtspErrorFn): this;
     on(event: 'data', listener: (buffer: Buffer) => void): this;
-    listen(port: number, callback: () => void): void;
+    listen(options: RtspOptions, callback: () => void): void;
   }
 
   export function createServer(requestListener: RtspRequestFn): RtspServer;

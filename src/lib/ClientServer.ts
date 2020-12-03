@@ -8,9 +8,15 @@ import { getDebugger } from './utils';
 
 const debug = getDebugger('ClientServer');
 
+export interface AccessResponseWithHeaders {
+  code: number,
+  additionalInfo?: { header: string, value: string }[]
+}
+
 export interface ClientServerHooksConfig {
   authentication?: (username: string, password: string, req: RtspRequest, res: RtspResponse) => Promise<boolean>;
-  checkMount?: (req: RtspRequest) => Promise<boolean | number>;
+  checkMount?: (req: RtspRequest) => Promise<AccessResponseWithHeaders | boolean>;
+  onNotImplementedMethod?: (req: RtspRequest, res: RtspResponse) => Promise<AccessResponseWithHeaders | boolean>;
   clientClose?: (mount: Mount) => Promise<void>;
 }
 
@@ -54,16 +60,14 @@ export class ClientServer {
         case 'TEARDOWN':
           return this.teardownRequest(req, res);
         default:
-          console.error('Unknown ClientServer request', { method: req.method, url: req.url });
-          res.statusCode = 501; // Not implemented
-          return res.end();
+          return this.notImplementedRequest(req, res)
       }
     });
   }
 
   async start (): Promise<void> {
     return new Promise((resolve, reject) => {
-      this.server.listen(this.rtspPort, () => {
+      this.server.listen({ port: this.rtspPort }, () => {
         debug('Now listening on %s', this.rtspPort);
 
         return resolve();
@@ -106,15 +110,24 @@ export class ClientServer {
     // It'll fall through to a 404 regardless
     if (this.hooks.checkMount) {
       const allowed = await this.hooks.checkMount(req);
-      if (!allowed || typeof allowed === 'number') {
+      if (!allowed) {
         debug('%s:%s path not allowed by hook - hook returned: %s', req.socket.remoteAddress, req.socket.remotePort, req.uri, allowed);
-        if (typeof allowed === 'number') {
-          res.statusCode = allowed;
-        } else {
-          res.statusCode = 403;
+
+        res.statusCode = 403;
+        return res.end();
+      }
+
+      if (typeof allowed === 'object') {
+        if (allowed?.additionalInfo) {
+          allowed.additionalInfo
+              .map(headerValueMap => {
+                const { header, value } = headerValueMap
+                res.setHeader(header, value)
+              })
         }
 
-        return res.end();
+        res.statusCode = allowed.code;
+        return res.end()
       }
     }
 
@@ -225,6 +238,33 @@ export class ClientServer {
     client.close();
 
     res.end();
+  }
+
+  async notImplementedRequest (req: RtspRequest, res: RtspResponse): Promise<void> {
+    const throwErrorCode = (code: number = 501) => {
+      res.statusCode = code;
+      return res.end();
+    }
+
+    if (!this.hooks.onNotImplementedMethod) {
+      return throwErrorCode()
+    }
+
+    const response = await this.hooks.onNotImplementedMethod(req, res)
+
+    if (!response) {
+      return throwErrorCode()
+    }
+
+    if (typeof response === 'object' && response?.additionalInfo) {
+      response.additionalInfo
+          .forEach(headerValueMap => {
+            const { header, value } = headerValueMap
+            res.setHeader(header, value)
+          })
+
+      return throwErrorCode(response.code)
+    }
   }
 
   /**

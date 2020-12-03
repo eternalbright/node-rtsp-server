@@ -62,7 +62,7 @@ export class PublishServer {
    */
   async start (): Promise<void> {
     return new Promise((resolve, reject) => {
-      this.server.listen(this.rtspPort, () => {
+      this.server.listen({ port: this.rtspPort }, () => {
         debug('Now listening on %s', this.rtspPort);
 
         return resolve();

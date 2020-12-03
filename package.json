@@ -1,16 +1,16 @@
 {
-  "name": "rtsp-streaming-server",
-  "version": "2.0.6",
-  "description": "Lightweight RTSP/RTP streaming media server written in Javascript",
+  "name": "node-rtsp-server",
+  "version": "2.0.8",
+  "description": "Lightweight RTSP/RTP streaming media server written in TypeScript",
   "main": "build/index.js",
   "scripts": {
     "prepare": "npm run build",
     "build": "npm run type-check && npm run build:js",
     "build:js": "babel src --out-dir build --extensions '.ts' --source-maps inline",
-    "coverage": "jest --coverage --env=node",
-    "lint": "tslint --project tsconfig.json",
+    "test": "ts-node --files test/index.ts",
+    "lint": "eslint '{src,test}/**/*.ts' --fix",
+    "format": "prettier --write '**/*.{json,ts}'",
     "start": "nodemon",
-    "test": "echo \"Error: no test specified\" && exit 1",
     "type-check": "tsc --emitDeclarationOnly"
   },
   "files": [
@@ -30,6 +30,7 @@
     "@babel/cli": "^7.5.5",
     "@babel/core": "^7.5.5",
     "@babel/node": "^7.5.5",
+    "@babel/plugin-proposal-optional-chaining": "^7.11.0",
     "@babel/preset-env": "^7.5.5",
     "@babel/preset-typescript": "^7.3.3",
     "@types/basic-auth": "^1.1.2",
@@ -37,11 +38,11 @@
     "@types/node": "^11.13.19",
     "@types/uuid": "^3.4.5",
     "lint-staged": "^8.2.1",
-    "nodemon": "^1.19.1",
-    "ts-node": "^8.3.0",
+    "nodemon": "^2.0.4",
+    "ts-node": "^8.10.2",
     "tslint": "^5.19.0",
     "tslint-config-standard": "^8.0.1",
-    "typescript": "^3.5.3"
+    "typescript": "^4.0.2"
   },
   "engines": {
     "node": ">=10.0.0"

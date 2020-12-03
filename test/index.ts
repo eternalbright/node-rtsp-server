@@ -1,3 +1,5 @@
+import { URL } from 'url'
+
 import RtspServer, { Mount } from '../src';
 
 const server = new RtspServer({
