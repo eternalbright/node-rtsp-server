@@ -1,55 +1,59 @@
 {
-  "name": "node-rtsp-server",
-  "version": "2.0.8",
-  "description": "Lightweight RTSP/RTP streaming media server written in TypeScript",
-  "main": "build/index.js",
-  "scripts": {
-    "prepare": "npm run build",
-    "build": "npm run type-check && npm run build:js",
-    "build:js": "babel src --out-dir build --extensions '.ts' --source-maps inline",
-    "test": "ts-node --files test/index.ts",
-    "lint": "eslint '{src,test}/**/*.ts' --fix",
-    "format": "prettier --write '**/*.{json,ts}'",
-    "start": "nodemon",
-    "type-check": "tsc --emitDeclarationOnly"
-  },
-  "files": [
-    "build"
-  ],
-  "keywords": [],
-  "author": "Chris Wiggins <chris@wiggins.nz>",
-  "license": "GPL-3.0",
-  "dependencies": {
-    "basic-auth": "^2.0.1",
-    "debug": "^4.1.1",
-    "rtsp-server": "^1.2.2",
-    "uuid": "^3.3.3",
-    "winston": "^2.4.4"
-  },
-  "devDependencies": {
-    "@babel/cli": "^7.5.5",
-    "@babel/core": "^7.5.5",
-    "@babel/node": "^7.5.5",
-    "@babel/plugin-proposal-optional-chaining": "^7.11.0",
-    "@babel/preset-env": "^7.5.5",
-    "@babel/preset-typescript": "^7.3.3",
-    "@types/basic-auth": "^1.1.2",
-    "@types/debug": "^4.1.5",
-    "@types/node": "^11.13.19",
-    "@types/uuid": "^3.4.5",
-    "lint-staged": "^8.2.1",
-    "nodemon": "^2.0.4",
-    "ts-node": "^8.10.2",
-    "tslint": "^5.19.0",
-    "tslint-config-standard": "^8.0.1",
-    "typescript": "^4.0.2"
-  },
-  "engines": {
-    "node": ">=10.0.0"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/chriswiggins/rtsp-streaming-server.git"
-  },
-  "types": "build/index.d.ts"
+    "name": "node-rtsp-server",
+    "version": "2.0.8",
+    "description": "Lightweight RTSP/RTP streaming media server written in TypeScript",
+    "main": "build/index.js",
+    "scripts": {
+        "prepare": "npm run build",
+        "build": "npm run type-check && npm run build:js",
+        "build:js": "babel src --out-dir build --extensions '.ts' --source-maps inline",
+        "test": "ts-node --files src/test/index.ts",
+        "lint": "eslint '{src,test}/**/*.ts' --fix",
+        "format": "prettier --write '**/*.{json,ts}'",
+        "start": "nodemon",
+        "type-check": "tsc --emitDeclarationOnly"
+    },
+    "files": [
+        "build"
+    ],
+    "keywords": [],
+    "author": "Chris Wiggins <chris@wiggins.nz>",
+    "license": "GPL-3.0",
+    "dependencies": {
+        "basic-auth": "^2.0.1",
+        "debug": "^4.1.1",
+        "rtsp-server": "^1.2.2",
+        "uuid": "^3.3.3",
+        "winston": "^2.4.4"
+    },
+    "devDependencies": {
+        "@babel/cli": "^7.5.5",
+        "@babel/core": "^7.5.5",
+        "@babel/node": "^7.5.5",
+        "@babel/plugin-proposal-optional-chaining": "^7.11.0",
+        "@babel/preset-env": "^7.5.5",
+        "@babel/preset-typescript": "^7.3.3",
+        "@types/basic-auth": "^1.1.2",
+        "@types/debug": "^4.1.5",
+        "@types/node": "^11.13.19",
+        "@types/uuid": "^3.4.5",
+        "@typescript-eslint/eslint-plugin": "^4.9.0",
+        "@typescript-eslint/parser": "^4.9.0",
+        "eslint": "^7.14.0",
+        "eslint-config-prettier": "^6.15.0",
+        "eslint-plugin-prettier": "^3.2.0",
+        "lint-staged": "^8.2.1",
+        "nodemon": "^2.0.4",
+        "prettier": "^2.2.1",
+        "ts-node": "^8.10.2",
+        "typescript": "^4.0.2"
+    },
+    "engines": {
+        "node": ">=10.0.0"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/chriswiggins/rtsp-streaming-server.git"
+    },
+    "types": "build/index.d.ts"
 }

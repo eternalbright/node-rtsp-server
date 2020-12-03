@@ -1,4 +1,3 @@
-
 import { Client } from './lib/Client';
 import { AccessResponseWithHeaders, ClientServer, ClientServerHooksConfig } from './lib/ClientServer';
 import { ClientWrapper } from './lib/ClientWrapper';
@@ -8,49 +7,49 @@ import { PublishServer, PublishServerHooksConfig } from './lib/PublishServer';
 import { RtpUdp } from './lib/RtpUdp';
 
 export interface RtspServerConfig {
-  clientPort: number;
-  rtpPortCount: number;
-  rtpPortStart: number;
-  serverPort: number;
+    clientPort: number;
+    rtpPortCount: number;
+    rtpPortStart: number;
+    serverPort: number;
 
-  publishServerHooks?: PublishServerHooksConfig;
-  clientServerHooks?: ClientServerHooksConfig;
+    publishServerHooks?: PublishServerHooksConfig;
+    clientServerHooks?: ClientServerHooksConfig;
 }
 
 export default class RtspServer {
-  public ClientServer: ClientServer;
-  public Mounts: Mounts;
-  public PublishServer: PublishServer;
+    public ClientServer: ClientServer;
+    public Mounts: Mounts;
+    public PublishServer: PublishServer;
 
-  constructor (config: RtspServerConfig) {
-    this.Mounts = new Mounts({
-      rtpPortCount: config.rtpPortCount,
-      rtpPortStart: config.rtpPortStart
-    });
+    constructor(config: RtspServerConfig) {
+        this.Mounts = new Mounts({
+            rtpPortCount: config.rtpPortCount,
+            rtpPortStart: config.rtpPortStart,
+        });
 
-    this.PublishServer = new PublishServer(config.serverPort, this.Mounts, config.publishServerHooks);
+        this.PublishServer = new PublishServer(config.serverPort, this.Mounts, config.publishServerHooks);
 
-    this.ClientServer = new ClientServer(config.clientPort, this.Mounts, config.clientServerHooks);
-  }
-
-  async start (): Promise<void> {
-    try {
-      await this.PublishServer.start();
-      await this.ClientServer.start();
-    } catch (e) {
-      throw e;
+        this.ClientServer = new ClientServer(config.clientPort, this.Mounts, config.clientServerHooks);
     }
-  }
+
+    async start(): Promise<void> {
+        try {
+            await this.PublishServer.start();
+            await this.ClientServer.start();
+        } catch (e) {
+            throw e;
+        }
+    }
 }
 
 export {
-  AccessResponseWithHeaders,
-  Client,
-  ClientServerHooksConfig,
-  ClientWrapper,
-  Mount,
-  Mounts,
-  PublishServer,
-  PublishServerHooksConfig,
-  RtpUdp
+    AccessResponseWithHeaders,
+    Client,
+    ClientServerHooksConfig,
+    ClientWrapper,
+    Mount,
+    Mounts,
+    PublishServer,
+    PublishServerHooksConfig,
+    RtpUdp,
 };

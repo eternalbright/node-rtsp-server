@@ -8,13 +8,13 @@ Use this module to run an RTSP server in javascript. Common use case is for load
 
 ## Running
 
-`npm install --save rtsp-streaming-server`
+`npm install git+https://github.com/eternalbright/node-rtsp-server.git`
 
 Add the following to your script where you want to run the server:
 
 ```typescript
 
-import RtspServer from 'rtsp-streaming-server'
+import RtspServer from 'node-rtsp-server'
 
 const server = new RtspServer({
 	serverPort: 5554,
@@ -38,7 +38,7 @@ run();
 
 If you're using javascript, you'll have to require the default export:
 ```javascript
-const RtspServer = require('rtsp-streaming-server').default;
+const RtspServer = require('node-rtsp-server').default;
 ```
 
 Use an RTSP producer that supports ANNOUNCE (such as ffmpeg):
